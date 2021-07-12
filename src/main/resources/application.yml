@@ -1,0 +1,13 @@
+micronaut:
+  application:
+    name: keyManager
+datasources:
+  default:
+    url: jdbc:mysql://localhost:3308/desafio_pix
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: rayller
+    password: emery
+    schema-generate: CREATE_DROP
+    dialect: MYSQL
+jpa.default.properties.hibernate.hbm2ddl.auto: update
+

@@ -1,0 +1,26 @@
+version: '3'
+services:
+    bcb:
+        image: "public.ecr.aws/d8b2x5c9/orange-stack-sat-bcb-pix"
+        ports: 
+            - 8082:8082
+    erp-itau:
+        image: "public.ecr.aws/d8b2x5c9/orange-stack-sat-itau-erp"
+        ports: 
+            - 9091:9091
+    database-mysql:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: rooter
+            MYSQL_DATABASE: desafio_pix
+            MYSQL_USER: rayller
+            MYSQL_PASSWORD: emery
+        ports:
+            - 3308:3306
+        volumes: 
+            - mysql_pix:/var/lib/mysql
+
+volumes:
+    mysql_pix:
