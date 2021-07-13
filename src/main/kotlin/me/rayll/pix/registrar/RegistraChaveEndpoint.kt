@@ -11,7 +11,7 @@ import javax.validation.Validator
 
 @Singleton
 @ErrorAroundHandler
-class RegistraChaveEndpoint(@Inject private val service: NovaChavePixService, val validator: Validator)
+class RegistraChaveEndpoint(@Inject private val service: NovaChavePixService, @Inject val validator: Validator)
     : KeyManagerServiceGrpc.KeyManagerServiceImplBase() {
 
     override fun registra(

@@ -1,10 +1,11 @@
-package me.rayll.pix.registrar
+package me.rayll.pix.clients
 
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.PathVariable
 import io.micronaut.http.annotation.QueryValue
 import io.micronaut.http.client.annotation.Client
+import me.rayll.pix.registrar.DadosDoClienteEmBanco
 
 
 @Client("http://localhost:9091")

@@ -11,3 +11,6 @@ datasources:
     dialect: MYSQL
 jpa.default.properties.hibernate.hbm2ddl.auto: update
 
+bcb:
+  pix:
+    url: 'http://localhost:8082'

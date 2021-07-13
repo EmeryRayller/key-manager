@@ -5,8 +5,8 @@ import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import me.rayll.pix.registrar.ValidUUID
 import me.rayll.pix.repository.ChavePixRepository
-import me.rayll.pix.shared.exceptions.ChavePixExistenteException
 import me.rayll.pix.shared.exceptions.ChavePixNaoExistenteException
+import javax.transaction.Transactional
 import javax.validation.Validator
 import javax.validation.constraints.NotBlank
 
@@ -16,6 +16,7 @@ class RemoveChaveService(
     @Inject val repository: ChavePixRepository,
     @Inject val validator: Validator) {
 
+    @Transactional
     fun remove(
         @NotBlank @ValidUUID("Client id com formato invalido") clientId: String,
         @NotBlank @ValidUUID("Pix id com formato invalido") pixId: String

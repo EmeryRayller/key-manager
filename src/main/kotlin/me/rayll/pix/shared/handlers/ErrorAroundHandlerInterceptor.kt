@@ -1,7 +1,6 @@
 package me.rayll.pix.shared.handlers
 
 import io.grpc.Status
-import io.grpc.StatusRuntimeException
 import io.grpc.stub.StreamObserver
 import io.micronaut.aop.InterceptorBean
 import io.micronaut.aop.MethodInterceptor
@@ -10,7 +9,6 @@ import jakarta.inject.Singleton
 import me.rayll.pix.shared.exceptions.ChavePixExistenteException
 import me.rayll.pix.shared.exceptions.ChavePixNaoExistenteException
 import me.rayll.pix.shared.exceptions.DadosDoClienteNaoEncontratoException
-import java.lang.IllegalArgumentException
 import javax.validation.ConstraintViolationException
 
 @Singleton

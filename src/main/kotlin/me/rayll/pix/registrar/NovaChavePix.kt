@@ -1,18 +1,17 @@
 package me.rayll.pix.registrar
 
 import io.micronaut.core.annotation.Introspected
-import me.rayll.TipoDeChave
 import me.rayll.TipoDeConta
 import java.util.*
-import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
 @Introspected
 @ValidPixKey
 data class NovaChavePix(
-    @ValidUUID
-    @field:NotBlank
+    @field:ValidUUID
+    @field:NotEmpty
     val clientId: String,
     @field:NotNull
     val tipoChave: me.rayll.pix.registrar.TipoDeChave?,

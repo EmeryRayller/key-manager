@@ -4,7 +4,7 @@ import javax.validation.Constraint
 import javax.validation.Payload
 import javax.validation.ReportAsSingleViolation
 import javax.validation.constraints.Pattern
-import kotlin.annotation.AnnotationRetention.*
+import kotlin.annotation.AnnotationRetention.RUNTIME
 import kotlin.annotation.AnnotationTarget.*
 import kotlin.reflect.KClass
 

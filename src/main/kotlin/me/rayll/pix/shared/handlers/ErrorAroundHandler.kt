@@ -1,7 +1,7 @@
 package me.rayll.pix.shared.handlers
 
 import io.micronaut.aop.Around
-import kotlin.annotation.AnnotationRetention.*
+import kotlin.annotation.AnnotationRetention.RUNTIME
 import kotlin.annotation.AnnotationTarget.*
 
 @MustBeDocumented

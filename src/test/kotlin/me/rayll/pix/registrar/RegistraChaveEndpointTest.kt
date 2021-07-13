@@ -11,7 +11,9 @@ import me.rayll.RegistraChavePixRequest
 import me.rayll.TipoDeChave
 import me.rayll.TipoDeConta
 import me.rayll.pix.Persistencia
+import me.rayll.pix.clients.BuscarClientItau
 import me.rayll.pix.repository.ChavePixRepository
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
@@ -25,7 +27,7 @@ import java.util.*
 internal class RegistraChaveEndpointTest(
     val repository: ChavePixRepository,
     @Inject val grpcClient: KeyManagerServiceGrpc.KeyManagerServiceBlockingStub
-){
+) {
 
     val persistencia = Persistencia()
 
@@ -85,7 +87,8 @@ internal class RegistraChaveEndpointTest(
         //validação
         with(thrown) {
             assertEquals(Status.ALREADY_EXISTS.code, status.code)
-            assertEquals("Chave Pix 63657520325 existente", status.description)
+            assertThat(status.description).contains("Chave Pix 63657520325 existente")
+
         }
 
     }
@@ -112,7 +115,7 @@ internal class RegistraChaveEndpointTest(
         //validação
         with(response) {
             assertEquals(Status.FAILED_PRECONDITION.code, status.code)
-            assertEquals("Cliente não encontrado no Itau.", status.description)
+            assertThat(status.description).contains("Cliente não encontrado no Itau.")
         }
     }
 
@@ -129,7 +132,11 @@ internal class RegistraChaveEndpointTest(
         //validação
         with(response) {
             assertEquals(Status.INVALID_ARGUMENT.code, status.code)
-            //assertEquals("Dados invalidos", status.description)
+            assertThat(status.description)
+                .contains("não é um uuid")
+                .contains("não deve estar vazio")
+                .contains("não deve ser nulo")
+
         }
     }
 

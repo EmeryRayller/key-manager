@@ -6,19 +6,20 @@ import io.micronaut.http.HttpResponse
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
-import me.rayll.*
+import me.rayll.KeyManagerRemoveServiceGrpc
+import me.rayll.KeyManagerServiceGrpc
+import me.rayll.RemoveChavePixRequest
 import me.rayll.pix.Persistencia
-import me.rayll.pix.registrar.BuscarClientItau
+import me.rayll.pix.clients.BuscarClientItau
 import me.rayll.pix.registrar.ChavePix
-import me.rayll.pix.registrar.RegistraChaveEndpointTest
 import me.rayll.pix.repository.ChavePixRepository
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.mockito.Mockito
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import java.util.*
 
 @MicronautTest(transactional = false)
@@ -81,7 +82,7 @@ internal class RemoveChaveEndpointTest(
         //validação
         with(response) {
             assertEquals(Status.NOT_FOUND.code, status.code)
-            assertEquals("Chave pix não encontrada ou não pertence ao cliente.", status.description)
+            assertThat(status.description).contains("Chave pix não encontrada ou não pertence ao cliente.")
         }
     }
 
@@ -102,7 +103,7 @@ internal class RemoveChaveEndpointTest(
         //validação
         with(response) {
             assertEquals(Status.INVALID_ARGUMENT.code, status.code)
-           // assertEquals("Pix id com formato invalido", status.description)
+            assertThat(status.description).contains("Pix id com formato invalido")
         }
     }
 
