@@ -46,7 +46,7 @@ dependencies {
     implementation("org.hibernate:hibernate-validator:6.1.0.Final")
     implementation("io.micronaut.xml:micronaut-jackson-xml")
     implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
-    testCompile ("org.mockito:mockito-junit-jupiter:2.22.0")
+    testCompile("org.mockito:mockito-junit-jupiter:2.22.0")
     testImplementation("org.assertj:assertj-core:3.20.2")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 

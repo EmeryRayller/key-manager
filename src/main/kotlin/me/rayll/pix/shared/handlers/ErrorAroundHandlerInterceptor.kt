@@ -6,6 +6,7 @@ import io.micronaut.aop.InterceptorBean
 import io.micronaut.aop.MethodInterceptor
 import io.micronaut.aop.MethodInvocationContext
 import jakarta.inject.Singleton
+import me.rayll.pix.shared.exceptions.AcessoNegadoException
 import me.rayll.pix.shared.exceptions.ChavePixExistenteException
 import me.rayll.pix.shared.exceptions.ChavePixNaoExistenteException
 import me.rayll.pix.shared.exceptions.DadosDoClienteNaoEncontratoException
@@ -29,6 +30,7 @@ class ErrorAroundHandlerInterceptor : MethodInterceptor<Any, Any> {
                 is ChavePixExistenteException -> Status.ALREADY_EXISTS.withCause(ex).withDescription(ex.message)
                 is DadosDoClienteNaoEncontratoException -> Status.FAILED_PRECONDITION.withCause(ex).withDescription(ex.message)
                 is ChavePixNaoExistenteException -> Status.NOT_FOUND.withCause(ex).withDescription(ex.message)
+                is AcessoNegadoException -> Status.ABORTED.withCause(ex).withDescription(ex.message)
                 else -> Status.UNKNOWN
             }
 

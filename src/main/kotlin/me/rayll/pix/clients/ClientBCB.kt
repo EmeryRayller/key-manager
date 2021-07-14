@@ -2,19 +2,44 @@ package me.rayll.pix.clients
 
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
-import io.micronaut.http.annotation.Post
+import io.micronaut.http.annotation.*
 import io.micronaut.http.client.annotation.Client
 import me.rayll.TipoDeConta
 import me.rayll.pix.registrar.ChavePix
 import me.rayll.pix.registrar.ContaAssociada
 import me.rayll.pix.registrar.TipoDeChave
+import java.time.LocalDateTime
 
-@Client("\${bcb.pix.url}")
+@Client("http://localhost:8082")
 interface ClientBCB {
 
-    @Post(produces = [MediaType.APPLICATION_XML], consumes = [MediaType.APPLICATION_XML])
-    fun create(request: CreatePixKeyRequest): HttpResponse<CreateChavePixResponse>
+    @Post("/api/v1/pix/keys",
+        produces = [MediaType.APPLICATION_XML],
+        consumes = [MediaType.APPLICATION_XML])
+    fun create(@Body request: CreatePixKeyRequest): HttpResponse<CreatePixKeyResponse>
+
+    @Delete("/api/v1/pix/keys/{key}",
+        produces = [MediaType.APPLICATION_XML],
+        consumes = [MediaType.APPLICATION_XML]
+    )
+    fun delete(@PathVariable key: String, @Body request: DeletePixKeyRequest): HttpResponse<DeletePixKeyResponse>
+
+    @Get("/api/v1/pix/keys/{key}",
+        consumes = [MediaType.APPLICATION_XML])
+    fun findByKey(@PathVariable key: String): HttpResponse<PixKeyDetailsResponse>
 }
+
+data class DeletePixKeyRequest(
+    val key: String,
+    val participant: String = ContaAssociada.ITAU_UNIBANCO_ISPB,
+)
+
+data class DeletePixKeyResponse(
+    val key: String,
+    val participant: String,
+    val deletedAt: LocalDateTime
+)
+
 
 data class CreatePixKeyRequest(
     val keyType: PixKeyType,
@@ -43,6 +68,42 @@ data class CreatePixKeyRequest(
             )
         }
     }
+}
+
+data class CreatePixKeyResponse(
+    val keyType: PixKeyType,
+    val key: String,
+    val bankAccount: BankAccount,
+    val owner: Owner,
+    val createdAt: LocalDateTime
+)
+
+
+data class PixKeyDetailsResponse (
+    val keyType: PixKeyType,
+    val key: String,
+    val bankAccount: BankAccount,
+    val owner: Owner,
+    val createdAt: LocalDateTime
+) {
+
+//    fun toModel(): ChavePixInfo {
+//        return ChavePixInfo(
+//            tipo = keyType.domainType!!,
+//            chave = this.key,
+//            tipoDeConta = when (this.bankAccount.accountType) {
+//                BankAccount.AccountType.CACC -> TipoDeConta.CONTA_CORRENTE
+//                BankAccount.AccountType.SVGS -> TipoDeConta.CONTA_POUPANCA
+//            },
+//            conta = ContaAssociada(
+//                instituicao = Instituicoes.nome(bankAccount.participant),
+//                nomeDoTitular = owner.name,
+//                cpfDoTitular = owner.taxIdNumber,
+//                agencia = bankAccount.branch,
+//                numeroDaConta = bankAccount.accountNumber
+//            )
+//        )
+//    }
 }
 
 data class BankAccount(
@@ -99,4 +160,3 @@ enum class PixKeyType(val domainType: TipoDeChave?) {
     }
 }
 
-data class CreateChavePixResponse(val one: String)

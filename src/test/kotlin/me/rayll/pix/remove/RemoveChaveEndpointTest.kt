@@ -11,6 +11,7 @@ import me.rayll.KeyManagerServiceGrpc
 import me.rayll.RemoveChavePixRequest
 import me.rayll.pix.Persistencia
 import me.rayll.pix.clients.BuscarClientItau
+import me.rayll.pix.clients.ClientBCB
 import me.rayll.pix.registrar.ChavePix
 import me.rayll.pix.repository.ChavePixRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -34,6 +35,9 @@ internal class RemoveChaveEndpointTest(
     @Inject
     lateinit var itauClientItau: BuscarClientItau
 
+    @Inject
+    lateinit var bcbClient: ClientBCB
+
     companion object {
         val CLIENT_ID = UUID.randomUUID().toString()
     }
@@ -44,7 +48,12 @@ internal class RemoveChaveEndpointTest(
     internal fun setUp() {
         `when`(itauClientItau.buscarConta(clienteId = CLIENT_ID, tipo = "CONTA_CORRENTE"))
             .thenReturn(HttpResponse.ok(persistencia.dadosDaContaResponse()))
+
+        `when`(bcbClient.delete(persistencia.retornaChave().chave, persistencia.retornaDeletePixKeyRequest()))
+            .thenReturn(HttpResponse.ok(persistencia.retornaDeletePixKeyResponse()))
+
         repository.deleteAll() //deletar primeiro todo o banco
+
         chave = repository.save(persistencia.retornaChave()) // salvar o primeiro registro para testar
     }
 
@@ -110,5 +119,10 @@ internal class RemoveChaveEndpointTest(
     @MockBean(BuscarClientItau::class)
     fun itauClient(): BuscarClientItau? {
         return mock(BuscarClientItau::class.java)
+    }
+
+    @MockBean(ClientBCB::class)
+    fun clienteBCB(): ClientBCB? {
+        return mock(ClientBCB::class.java)
     }
 }

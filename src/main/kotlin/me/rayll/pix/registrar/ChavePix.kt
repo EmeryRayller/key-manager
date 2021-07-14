@@ -16,7 +16,7 @@ class ChavePix(
     val tipoDeChave: TipoDeChave,
 
     @field:NotEmpty
-    val chave: String,
+    var chave: String,
 
     @field:NotNull
     @Enumerated(EnumType.STRING)

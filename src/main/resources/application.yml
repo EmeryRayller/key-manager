@@ -13,4 +13,4 @@ jpa.default.properties.hibernate.hbm2ddl.auto: update
 
 bcb:
   pix:
-    url: 'http://localhost:8082'
+    url: ${BCB_URL:`http://localhost:8082`}

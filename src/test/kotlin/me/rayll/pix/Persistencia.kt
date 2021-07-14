@@ -1,10 +1,16 @@
 package me.rayll.pix
 
 import me.rayll.TipoDeConta
+import me.rayll.pix.clients.*
 import me.rayll.pix.registrar.*
+import java.time.LocalDateTime
 import java.util.*
 
 open class Persistencia {
+
+    companion object CREATED_AT {
+        val creatAt = LocalDateTime.of(2021, 7, 13, 18, 0)
+    }
 
     fun retornaChave(): ChavePix {
 
@@ -15,14 +21,39 @@ open class Persistencia {
         )
     }
 
-    fun dadosDaContaResponse(): DadosDoClienteEmBanco =
+    fun retornaChavePixRequest() =
+        createPixKeyRequest()
+
+    fun retornaChavePixResponse() =
+        CreatePixKeyResponse(
+            keyType = retornaChavePixRequest().keyType,
+            key = retornaChavePixRequest().key,
+            bankAccount = retornaChavePixRequest().bankAccount,
+            owner = retornaChavePixRequest().owner,
+            createdAt = LocalDateTime.now()
+        )
+
+    fun retornaDeletePixKeyRequest() = DeletePixKeyRequest(
+        key = retornaChave().chave,
+        participant = titularResponse().nome
+    )
+
+    fun retornaDeletePixKeyResponse() = DeletePixKeyResponse(
+        key = retornaChave().chave,
+        participant = titularResponse().nome,
+        deletedAt = LocalDateTime.now()
+    )
+
+    fun dadosDaContaResponse() =
         DadosDoClienteEmBanco(
             tipo = "CONTA_CORRENTE",
             instituicao = InstituicaoResponse("UNIBANCO ITAU SA", ContaAssociada.ITAU_UNIBANCO_ISPB),
             agencia = "1218",
             numero = "291900",
-            titular = TitularResponse("Rafael Pontes", "63657520325")
+            titular = titularResponse()
         )
+
+    private fun titularResponse() = TitularResponse("Rafael Pontes", "63657520325")
 
     private fun chave(
         tipoChave: me.rayll.pix.registrar.TipoDeChave,
@@ -34,13 +65,19 @@ open class Persistencia {
             tipoDeChave = tipoChave,
             chave = chave,
             tipoDeConta = TipoDeConta.CONTA_CORRENTE,
-            conta = ContaAssociada(
-                instituicao = "UNIBANCO ITAU",
-                nomeDoTitular = "Rafael Ponte",
-                cpfDoTitular = "63657520325",
-                agencia = "1218",
-                numeroDaConta = "291900"
-            )
+            conta = contaAssociada()
         )
     }
+
+    private fun contaAssociada() = ContaAssociada(
+        instituicao = "UNIBANCO ITAU",
+        nomeDoTitular = "Rafael Pontes",
+        cpfDoTitular = "63657520325",
+        agencia = "1218",
+        numeroDaConta = "291900"
+    )
+
+    private fun createPixKeyRequest() =
+        CreatePixKeyRequest.of(retornaChave())
+
 }

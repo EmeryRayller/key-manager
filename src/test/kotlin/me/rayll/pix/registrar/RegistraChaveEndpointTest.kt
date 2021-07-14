@@ -12,6 +12,7 @@ import me.rayll.TipoDeChave
 import me.rayll.TipoDeConta
 import me.rayll.pix.Persistencia
 import me.rayll.pix.clients.BuscarClientItau
+import me.rayll.pix.clients.ClientBCB
 import me.rayll.pix.repository.ChavePixRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -34,6 +35,9 @@ internal class RegistraChaveEndpointTest(
     @Inject
     lateinit var itauClientItau: BuscarClientItau
 
+    @Inject
+    lateinit var bcbClient: ClientBCB
+
     companion object {
         val CLIENT_ID = UUID.randomUUID().toString()
     }
@@ -49,12 +53,15 @@ internal class RegistraChaveEndpointTest(
         `when`(itauClientItau.buscarConta(clienteId = CLIENT_ID, tipo = "CONTA_CORRENTE"))
             .thenReturn(HttpResponse.ok(persistencia.dadosDaContaResponse()))
 
+        `when`(bcbClient.create(persistencia.retornaChavePixRequest()))
+            .thenReturn(HttpResponse.created(persistencia.retornaChavePixResponse()))
+
         //ação
         val response = grpcClient.registra(
             RegistraChavePixRequest.newBuilder()
-                .setClientId(CLIENT_ID)
-                .setTipoDeChave(TipoDeChave.EMAIL)
-                .setChave("rponte@gmail.com")
+                .setClientId(persistencia.retornaChave().clientId)
+                .setTipoDeChave(TipoDeChave.CPF)
+                .setChave(persistencia.retornaChave().chave)
                 .setTipoDeConta(TipoDeConta.CONTA_CORRENTE)
                 .build()
         )
@@ -100,6 +107,7 @@ internal class RegistraChaveEndpointTest(
         `when`(itauClientItau.buscarConta(clienteId = CLIENT_ID, tipo = "CONTA_CORRENTE"))
             .thenReturn(HttpResponse.notFound())
 
+
         //ação
         val response = assertThrows<StatusRuntimeException> {
             grpcClient.registra(
@@ -143,6 +151,10 @@ internal class RegistraChaveEndpointTest(
     @MockBean(BuscarClientItau::class)
     fun itauClient(): BuscarClientItau? {
         return mock(BuscarClientItau::class.java)
+    }
+    @MockBean(ClientBCB::class)
+    fun clienteBCB(): ClientBCB? {
+        return mock(ClientBCB::class.java)
     }
 
 }

@@ -7,6 +7,8 @@ option objc_class_prefix = "HLW";
 
 package me.rayll;
 
+import "google/protobuf/timestamp.proto";
+
 /**
 service para cadastrar chave
  */
@@ -22,9 +24,15 @@ service KeyManagerRemoveService {
 }
 
 /**
+service para carregar a chave
+ */
+service KeymanagerCarregaGrpcService {
+  rpc carrega(CarregaChavePixRequest) returns (CarregaChavePixResponse) {}
+}
+
+/**
 remove a chave pix
  */
-
 message RemoveChavePixRequest{
   string clientId = 1;
   string pixId = 2;
@@ -45,7 +53,44 @@ message RegistraChavePixRequest {
   TipoDeConta tipoDeConta = 4;
 }
 
+/**
+ * Carrega chave
+ */
+message CarregaChavePixRequest {
+  message FiltroPorPixId {
+    string clienteId = 1;
+    string pixId     = 2;
+  }
 
+  oneof filtro {
+    FiltroPorPixId pixId  = 1;
+    string chave          = 2;
+  }
+}
+
+message CarregaChavePixResponse {
+
+  message ChavePix {
+
+    message ContaInfo {
+      TipoDeConta tipo     = 1;
+      string instituicao   = 2; /** ITAU UNIBANCO */
+      string nomeDoTitular = 3;
+      string cpfDoTitular  = 4;
+      string agencia       = 5;
+      string numeroDaConta = 6;
+    }
+
+    TipoDeChave tipo        = 1;
+    string chave            = 2;
+    ContaInfo conta         = 3;
+    google.protobuf.Timestamp criadaEm = 4;
+  }
+
+  string clienteId = 1;
+  string pixId     = 2;
+  ChavePix chave   = 3;
+}
 
 message  RegistraChavePixResponse {
   string clienteId = 1;
