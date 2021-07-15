@@ -1,5 +1,6 @@
 package me.rayll.pix
 
+import me.rayll.CarregaChavePixRequest
 import me.rayll.TipoDeConta
 import me.rayll.pix.clients.*
 import me.rayll.pix.registrar.*
@@ -9,7 +10,7 @@ import java.util.*
 open class Persistencia {
 
     companion object CREATED_AT {
-        val creatAt = LocalDateTime.of(2021, 7, 13, 18, 0)
+        val CLIENT_ID = UUID.randomUUID().toString()
     }
 
     fun retornaChave(): ChavePix {
@@ -17,7 +18,7 @@ open class Persistencia {
         return chave(
             tipoChave = me.rayll.pix.registrar.TipoDeChave.CPF,
             chave = "63657520325",
-            clienteId = RegistraChaveEndpointTest.CLIENT_ID
+            clienteId = CLIENT_ID
         )
     }
 
@@ -76,6 +77,7 @@ open class Persistencia {
         agencia = "1218",
         numeroDaConta = "291900"
     )
+
 
     private fun createPixKeyRequest() =
         CreatePixKeyRequest.of(retornaChave())

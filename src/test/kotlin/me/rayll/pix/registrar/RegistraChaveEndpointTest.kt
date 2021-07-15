@@ -38,10 +38,6 @@ internal class RegistraChaveEndpointTest(
     @Inject
     lateinit var bcbClient: ClientBCB
 
-    companion object {
-        val CLIENT_ID = UUID.randomUUID().toString()
-    }
-
     @BeforeEach
     internal fun setUp() {
         repository.deleteAll()
@@ -50,7 +46,7 @@ internal class RegistraChaveEndpointTest(
     @Test
     fun `deve registrar nova chave pix`() {
         //cenario
-        `when`(itauClientItau.buscarConta(clienteId = CLIENT_ID, tipo = "CONTA_CORRENTE"))
+        `when`(itauClientItau.buscarConta(clienteId = Persistencia.CLIENT_ID, tipo = "CONTA_CORRENTE"))
             .thenReturn(HttpResponse.ok(persistencia.dadosDaContaResponse()))
 
         `when`(bcbClient.create(persistencia.retornaChavePixRequest()))
@@ -68,7 +64,7 @@ internal class RegistraChaveEndpointTest(
 
         //validação
         with(response) {
-            assertEquals(CLIENT_ID, clienteId)
+            assertEquals(Persistencia.CLIENT_ID, clienteId)
             assertNotNull(pixId)
         }
     }
@@ -83,7 +79,7 @@ internal class RegistraChaveEndpointTest(
         val thrown = assertThrows<StatusRuntimeException> {
             grpcClient.registra(
                 RegistraChavePixRequest.newBuilder()
-                    .setClientId(CLIENT_ID)
+                    .setClientId(Persistencia.CLIENT_ID)
                     .setTipoDeChave(TipoDeChave.CPF)
                     .setChave("63657520325")
                     .setTipoDeConta(TipoDeConta.CONTA_CORRENTE)
@@ -104,7 +100,7 @@ internal class RegistraChaveEndpointTest(
     fun `nao deve registrar chave pix quando nao encontrar dados da conta do cliente`() {
 
         //cenario
-        `when`(itauClientItau.buscarConta(clienteId = CLIENT_ID, tipo = "CONTA_CORRENTE"))
+        `when`(itauClientItau.buscarConta(clienteId = Persistencia.CLIENT_ID, tipo = "CONTA_CORRENTE"))
             .thenReturn(HttpResponse.notFound())
 
 
@@ -112,7 +108,7 @@ internal class RegistraChaveEndpointTest(
         val response = assertThrows<StatusRuntimeException> {
             grpcClient.registra(
                 RegistraChavePixRequest.newBuilder()
-                    .setClientId(CLIENT_ID)
+                    .setClientId(Persistencia.CLIENT_ID)
                     .setTipoDeChave(TipoDeChave.EMAIL)
                     .setChave("rponte@gmail.com")
                     .setTipoDeConta(TipoDeConta.CONTA_CORRENTE)

@@ -5,6 +5,8 @@ import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
 import io.micronaut.http.client.annotation.Client
 import me.rayll.TipoDeConta
+import me.rayll.pix.Instituicoes
+import me.rayll.pix.carregar.ChavePixInfo
 import me.rayll.pix.registrar.ChavePix
 import me.rayll.pix.registrar.ContaAssociada
 import me.rayll.pix.registrar.TipoDeChave
@@ -87,23 +89,23 @@ data class PixKeyDetailsResponse (
     val createdAt: LocalDateTime
 ) {
 
-//    fun toModel(): ChavePixInfo {
-//        return ChavePixInfo(
-//            tipo = keyType.domainType!!,
-//            chave = this.key,
-//            tipoDeConta = when (this.bankAccount.accountType) {
-//                BankAccount.AccountType.CACC -> TipoDeConta.CONTA_CORRENTE
-//                BankAccount.AccountType.SVGS -> TipoDeConta.CONTA_POUPANCA
-//            },
-//            conta = ContaAssociada(
-//                instituicao = Instituicoes.nome(bankAccount.participant),
-//                nomeDoTitular = owner.name,
-//                cpfDoTitular = owner.taxIdNumber,
-//                agencia = bankAccount.branch,
-//                numeroDaConta = bankAccount.accountNumber
-//            )
-//        )
-//    }
+    fun toModel(): ChavePixInfo {
+        return ChavePixInfo(
+            tipoChave = keyType.domainType!!,
+            chave = this.key,
+            tipoDeConta = when (this.bankAccount.accountType) {
+                BankAccount.AccountType.CACC -> TipoDeConta.CONTA_CORRENTE
+                BankAccount.AccountType.SVGS -> TipoDeConta.CONTA_POUPANCA
+            },
+            conta = ContaAssociada(
+                instituicao = Instituicoes.nome(bankAccount.participant),
+                nomeDoTitular = owner.name,
+                cpfDoTitular = owner.taxIdNumber,
+                agencia = bankAccount.branch,
+                numeroDaConta = bankAccount.accountNumber
+            )
+        )
+    }
 }
 
 data class BankAccount(

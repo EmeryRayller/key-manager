@@ -13,6 +13,7 @@ import me.rayll.pix.Persistencia
 import me.rayll.pix.clients.BuscarClientItau
 import me.rayll.pix.clients.ClientBCB
 import me.rayll.pix.registrar.ChavePix
+import me.rayll.pix.registrar.RegistraChaveEndpointTest
 import me.rayll.pix.repository.ChavePixRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -46,7 +47,7 @@ internal class RemoveChaveEndpointTest(
 
     @BeforeEach
     internal fun setUp() {
-        `when`(itauClientItau.buscarConta(clienteId = CLIENT_ID, tipo = "CONTA_CORRENTE"))
+        `when`(itauClientItau.buscarConta(clienteId = Persistencia.CLIENT_ID, tipo = "CONTA_CORRENTE"))
             .thenReturn(HttpResponse.ok(persistencia.dadosDaContaResponse()))
 
         `when`(bcbClient.delete(persistencia.retornaChave().chave, persistencia.retornaDeletePixKeyRequest()))

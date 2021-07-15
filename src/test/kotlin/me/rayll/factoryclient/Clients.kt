@@ -7,6 +7,7 @@ import io.micronaut.grpc.annotation.GrpcChannel
 import io.micronaut.grpc.server.GrpcServerChannel
 import me.rayll.KeyManagerRemoveServiceGrpc
 import me.rayll.KeyManagerServiceGrpc
+import me.rayll.KeymanagerCarregaGrpcServiceGrpc
 
 
 //isso aqui é para criar a factory de client, ou seja, o que vai consumir nosso servidor
@@ -31,6 +32,19 @@ open class ClientRemove {
             KeyManagerRemoveServiceGrpc.KeyManagerRemoveServiceBlockingStub? {
 
         return KeyManagerRemoveServiceGrpc.newBlockingStub(channel)
+
+    }
+}
+
+//isso aqui é para criar a factory de client, ou seja, o que vai consumir nosso servidor
+//esse client é o de carregar
+@Factory
+open class ClientCarrega {
+    @Bean
+    fun blockingStub(@GrpcChannel(GrpcServerChannel.NAME) channel: ManagedChannel) :
+            KeymanagerCarregaGrpcServiceGrpc.KeymanagerCarregaGrpcServiceBlockingStub? {
+
+        return KeymanagerCarregaGrpcServiceGrpc.newBlockingStub(channel)
 
     }
 }
