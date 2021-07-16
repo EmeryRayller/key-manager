@@ -31,6 +31,36 @@ service KeymanagerCarregaGrpcService {
 }
 
 /**
+service que lista todas as chaves
+ */
+service KeymanagerListaService {
+
+  rpc lista(ListaChavesPixRequest) returns (ListaChavesPixResponse) {}
+
+}
+
+/**
+ * Lista chaves
+ */
+message ListaChavesPixRequest {
+  string clienteId = 1;
+}
+
+message ListaChavesPixResponse {
+
+  message ChavePix {
+    string pixId            = 1;
+    TipoDeChave tipo        = 2;
+    string chave            = 3;
+    TipoDeConta tipoDeConta = 4;
+    google.protobuf.Timestamp criadaEm = 5;
+  }
+
+  string clienteId         = 1;
+  repeated ChavePix chaves = 2;
+}
+
+/**
 remove a chave pix
  */
 message RemoveChavePixRequest{

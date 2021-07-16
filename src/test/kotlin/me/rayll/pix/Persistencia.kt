@@ -56,7 +56,7 @@ open class Persistencia {
 
     private fun titularResponse() = TitularResponse("Rafael Pontes", "63657520325")
 
-    private fun chave(
+    fun chave(
         tipoChave: me.rayll.pix.registrar.TipoDeChave,
         chave: String = UUID.randomUUID().toString(),
         clienteId: String = UUID.randomUUID().toString(),

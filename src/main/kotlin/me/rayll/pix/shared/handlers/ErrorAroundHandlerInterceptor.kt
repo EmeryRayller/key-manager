@@ -30,6 +30,7 @@ class ErrorAroundHandlerInterceptor : MethodInterceptor<Any, Any> {
                 is ChavePixExistenteException -> Status.ALREADY_EXISTS.withCause(ex).withDescription(ex.message)
                 is DadosDoClienteNaoEncontratoException -> Status.FAILED_PRECONDITION.withCause(ex).withDescription(ex.message)
                 is ChavePixNaoExistenteException -> Status.NOT_FOUND.withCause(ex).withDescription(ex.message)
+                is IllegalArgumentException -> Status.INVALID_ARGUMENT.withCause(ex).withDescription(ex.message)
                 is AcessoNegadoException -> Status.ABORTED.withCause(ex).withDescription(ex.message)
                 else -> Status.UNKNOWN
             }
