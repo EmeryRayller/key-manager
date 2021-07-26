@@ -3,14 +3,17 @@ micronaut:
     name: keyManager
 datasources:
   default:
-    url: jdbc:mysql://localhost:3308/desafio_pix
+    url: ${DB_URI:`jdbc:mysql://localhost:3308/desafio_pix`}
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: rayller
-    password: emery
-    schema-generate: CREATE_DROP
-    dialect: MYSQL
+    username: ${DB_USER:rayller}
+    password: ${DB_PASSWORD:emery}
+    schema-generate: UPDATE
+    dialect: ${DB_DIALECT:MYSQL}
 jpa.default.properties.hibernate.hbm2ddl.auto: update
 
 bcb:
   pix:
     url: ${BCB_URL:`http://localhost:8082`}
+itau:
+  erp:
+    url: ${ITAU_URL:`http://localhost:9091`}

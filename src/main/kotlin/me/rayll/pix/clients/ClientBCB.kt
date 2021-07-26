@@ -12,7 +12,7 @@ import me.rayll.pix.registrar.ContaAssociada
 import me.rayll.pix.registrar.TipoDeChave
 import java.time.LocalDateTime
 
-@Client("http://localhost:8082")
+@Client("bcb.pix.url")
 interface ClientBCB {
 
     @Post("/api/v1/pix/keys",

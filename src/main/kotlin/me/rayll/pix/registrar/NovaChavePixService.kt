@@ -47,23 +47,24 @@ class NovaChavePixService(
         LOGGER.info("Registrando a chave pix no serviço externo do bacen: \\n")
 
         //5 - salvando a request no bacen e na nossa base
-//        try {
+        try {
             //5.1 - salvar a chave no bacen e retorna exceção caso status diferente de 201
             val bacenResponse: HttpResponse<CreatePixKeyResponse> = clientBCB.create(bacenRequest)
-//                .also {
-//                if (it.status != HttpStatus.CREATED) {
-//                    throw IllegalStateException("Erro ao registrar chave pix no Banco Central")
-//                }
-//            }
+                .also {
+                    if (it.status != HttpStatus.CREATED) {
+                        throw IllegalStateException("Erro ao registrar chave pix no Banco Central")
+                    }
+                }
 
             //5.2 - troca a chave da response do bacen na nossa entidade para salvar no bando
             //pois a chave aleatória vira do bacen
-            chave.chave = bacenResponse.body().key
+            chave.chave = bacenResponse.body()!!.key
             repository.save(chave)
 
-//        } catch (ex: Exception) {
-//            throw ex
-//        }
-        return chave
+        } catch (ex: Exception) {
+            throw ex
+        }
+            return chave
+
     }
 }

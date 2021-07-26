@@ -14,7 +14,7 @@ data class NovaChavePix(
     @field:NotEmpty
     val clientId: String,
     @field:NotNull
-    val tipoChave: me.rayll.pix.registrar.TipoDeChave?,
+    val tipoChave: TipoDeChave?,
     @field:Size(max = 77)
     val chave: String,
     @field:NotNull
@@ -22,8 +22,8 @@ data class NovaChavePix(
 ) {
     fun paraChavePix(conta: ContaAssociada) = ChavePix(
         clientId = UUID.fromString(this.clientId).toString(),
-        tipoDeChave = me.rayll.pix.registrar.TipoDeChave.valueOf(this.tipoChave!!.name),
-        chave = if (this.tipoChave == me.rayll.pix.registrar.TipoDeChave.UNKNOWN_TIPO_CHAVE) UUID.randomUUID().toString() else this.chave!!,
+        tipoDeChave = TipoDeChave.valueOf(this.tipoChave!!.name),
+        chave = if (this.tipoChave == TipoDeChave.UNKNOWN_TIPO_CHAVE) UUID.randomUUID().toString() else this.chave!!,
         tipoDeConta = TipoDeConta.valueOf(this.tipoDeConta!!.name),
         conta = conta
     )

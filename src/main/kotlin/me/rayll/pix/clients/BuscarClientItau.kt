@@ -8,7 +8,7 @@ import io.micronaut.http.client.annotation.Client
 import me.rayll.pix.registrar.DadosDoClienteEmBanco
 
 
-@Client("http://localhost:9091")
+@Client("\${itau.erp.url}")
 interface BuscarClientItau {
 
     @Get("/api/v1/clientes/{clienteId}/contas{?tipo}")

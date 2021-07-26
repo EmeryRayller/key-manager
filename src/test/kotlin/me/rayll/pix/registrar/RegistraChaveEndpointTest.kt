@@ -2,6 +2,7 @@ package me.rayll.pix.registrar
 
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
+import io.micronaut.context.annotation.EachBean
 import io.micronaut.http.HttpResponse
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
@@ -15,6 +16,7 @@ import me.rayll.pix.clients.BuscarClientItau
 import me.rayll.pix.clients.ClientBCB
 import me.rayll.pix.repository.ChavePixRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
@@ -26,7 +28,7 @@ import java.util.*
 
 @MicronautTest(transactional = false)
 internal class RegistraChaveEndpointTest(
-    val repository: ChavePixRepository,
+    @Inject val repository: ChavePixRepository,
     @Inject val grpcClient: KeyManagerServiceGrpc.KeyManagerServiceBlockingStub
 ) {
 
@@ -39,7 +41,7 @@ internal class RegistraChaveEndpointTest(
     lateinit var bcbClient: ClientBCB
 
     @BeforeEach
-    internal fun setUp() {
+    fun setUp() {
         repository.deleteAll()
     }
 
