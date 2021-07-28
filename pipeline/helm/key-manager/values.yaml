@@ -82,7 +82,7 @@ tolerations: []
 affinity: {}
 
 application:
-  DB_URI: jdbc:mysql://desafio-pix.csx61fbpcnsf.us-east-2.rds.amazonaws.com/desafio-pix
+  DB_URI: jdbc:mysql://rayller-ot05.chpeyn5uxxax.us-east-1.rds.amazonaws.com
   DB_USER: admin
   DB_PASSWORD: zerin.0157
   DB_DIALECT: MYSQL
