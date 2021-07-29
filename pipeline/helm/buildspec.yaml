@@ -26,10 +26,10 @@ phases:
       - AWS_DEFAULT_REGION="$DEFAULT_REGION"
       - IMAGE_TAG="$IMAGE_TAG"
       - echo Build started on `date`
-      - echo Building the Docker image...  
+      - echo Building the Docker image... 
       - docker image ls
       - docker build -t $DEPLOYMENT_NAME . 
-      - docker tag $DEPLOYMENT_NAME:$IMAGE_TAG $URL_REPO/$DEPLOYMENT_NAME:$IMAGE_TAG
+      - docker tag $DEPLOYMENT_NAME $URL_REPO/$DEPLOYMENT_NAME:$IMAGE_TAG
       - docker image ls
       - echo Build completed on `date`  
 
