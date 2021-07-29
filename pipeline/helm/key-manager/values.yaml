@@ -86,5 +86,5 @@ application:
   DB_USER: admin
   DB_PASSWORD: zerin.0157
   DB_DIALECT: MYSQL
-  ITAU_URL: http://internal-a0056f1bc61dd472ab8af70597036b6c-721953980.sa-east-1.elb.amazonaws.com
-  BCB_URL: http://internal-abfe0883c77dd427ab0997441a62306b-1365683537.sa-east-1.elb.amazonaws.com
+  ITAU_URL: 172.31.0.142:9091
+  BCB_URL: 172.31.32.174:8082
