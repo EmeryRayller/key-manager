@@ -40,7 +40,7 @@ phases:
       - echo Push completed on `date`  
       - echo deploying to cluster...
       - helm version --short
-      - helm lint pipeline/helm/$DEPLOYMENT_NAME --values pipeline/helm/$DEPLOYMENT_NAME/values.yaml
+      - helm lint pipeline/helm/rayller-ot5-key-manager --values pipeline/helm/rayller-ot5-key-manager/values.yaml
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $ARN_ROLE
       - kubectl get nodes
-      - helm upgrade -i $DEPLOYMENT_NAME pipeline/helm/$DEPLOYMENT_NAME/ --values pipeline/helm/$DEPLOYMENT_NAME/values.yaml
+      - helm upgrade -i $DEPLOYMENT_NAME pipeline/helm/rayller-ot5-key-manager/ --values pipeline/helm/rayller-ot5-key-manager/values.yaml
