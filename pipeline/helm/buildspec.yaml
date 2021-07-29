@@ -29,14 +29,14 @@ phases:
       - echo Building the Docker image... 
       - docker image ls
       - docker build -t $DEPLOYMENT_NAME .
-      - docker tag $DEPLOYMENT_NAME $URL_REPO/$DEPLOYMENT_NAME:$IMAGE_TAG
+      - docker tag $DEPLOYMENT_NAME:$IMAGE_TAG $URL_REPO:$IMAGE_TAG
       - docker image ls
       - echo Build completed on `date`  
 
   post_build:
     commands:
       - echo Pushing in to Amazon ECR...
-      - docker push $URL_REPO
+      - docker push $URL_REPO:$IMAGE_TAG
       - echo Push completed on `date`  
       - echo deploying to cluster...
       - helm version --short
