@@ -28,15 +28,15 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image... 
       - docker image ls
-      - docker build -t $DEPLOYMENT_NAME .
-      - docker tag $DEPLOYMENT_NAME:$IMAGE_TAG $URL_REPO:$IMAGE_TAG
+      - docker build -t rayller-ot5-key-manager .
+      - docker tag rayller-ot5-key-manager:latest public.ecr.aws/i2c7a5l2/rayller-ot5-key-manager:latest
       - docker image ls
       - echo Build completed on `date`  
 
   post_build:
     commands:
       - echo Pushing in to Amazon ECR...
-      - docker push $URL_REPO:$IMAGE_TAG
+      - docker push public.ecr.aws/i2c7a5l2/rayller-ot5-key-manager:latest
       - echo Push completed on `date`  
       - echo deploying to cluster...
       - helm version --short
