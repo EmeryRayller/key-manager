@@ -28,15 +28,15 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image... 
       - docker image ls
-      - docker build -t $DEPLOYMENT_NAME . 
-      - docker tag $DEPLOYMENT_NAME $URL_REPO/$DEPLOYMENT_NAME:$IMAGE_TAG
+      - docker build -t key-manager .
+      - docker tag key-manager $URL_REPO/key-manager:latest
       - docker image ls
       - echo Build completed on `date`  
 
   post_build:
     commands:
       - echo Pushing in to Amazon ECR...
-      - docker push $URL_REPO/$DEPLOYMENT_NAME:$IMAGE_TAG
+      - docker push $URL_REPO/key-manager:latest
       - echo Push completed on `date`  
       - echo deploying to cluster...
       - helm version --short
