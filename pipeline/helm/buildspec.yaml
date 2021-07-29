@@ -36,7 +36,7 @@ phases:
   post_build:
     commands:
       - echo Pushing in to Amazon ECR...
-      - docker push $URL_REPO/$DEPLOYMENT_NAME:$IMAGE_TAG
+      - docker push $URL_REPO
       - echo Push completed on `date`  
       - echo deploying to cluster...
       - helm version --short
