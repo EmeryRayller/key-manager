@@ -28,8 +28,8 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image... 
       - docker image ls
-      - docker build -t rayller-ot5-key-manager .
-      - docker tag rayller-ot5-key-manager:latest public.ecr.aws/i2c7a5l2/rayller-ot5-key-manager:latest
+      - docker build -t $DEPLOYMENT_NAME .
+      - docker tag $DEPLOYMENT_NAME:$TAG_NAME $URL_REPO:$TAG_NAME
       - docker image ls
       - echo Build completed on `date`  
 
@@ -41,6 +41,6 @@ phases:
       - echo deploying to cluster...
       - helm version --short
       - helm lint pipeline/helm/key-manager --values pipeline/helm/key-manager/values.yaml
-      - aws eks update-kubeconfig --name zup-sandbox-edu-containerizando --role-arn arn:aws:iam::208471844409:role/EksOrangeCodeBuildKubectlRole
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $ARN_ROLE
       #- kubectl get nodes
-      - helm upgrade -i rayller-ot5-key-manager pipeline/helm/key-manager/ --values pipeline/helm/key-manager/values.yaml
+      - helm upgrade -i $DEPLOYMENT_NAME pipeline/helm/$DEPLOYMENT_NAME/ --values pipeline/helm/$DEPLOYMENT_NAME/values.yaml
