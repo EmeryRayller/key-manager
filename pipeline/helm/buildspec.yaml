@@ -41,6 +41,6 @@ phases:
       - echo deploying to cluster...
       - helm version --short
       - helm lint pipeline/helm/key-manager --values pipeline/helm/key-manager/values.yaml
-      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $ARN_ROLE
+      - aws eks update-kubeconfig --name zup-sandbox-edu-containerizando --role-arn arn:aws:iam::208471844409:role/EksOrangeCodeBuildKubectlRole
       #- kubectl get nodes
       - helm upgrade -i rayller-ot5-key-manager pipeline/helm/key-manager/ --values pipeline/helm/key-manager/values.yaml
