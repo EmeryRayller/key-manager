@@ -42,5 +42,5 @@ phases:
       - helm version --short
       - helm lint pipeline/helm/key-manager --values pipeline/helm/key-manager/values.yaml
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $ARN_ROLE
-      - kubectl get nodes
+      #- kubectl get nodes
       - helm upgrade -i rayller-ot5-key-manager pipeline/helm/key-manager/ --values pipeline/helm/key-manager/values.yaml
